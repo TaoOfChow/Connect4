@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Connect4 {
+public class Main {
 
 	public static char[][] board = new char[6][7];
 	
@@ -42,6 +42,13 @@ public class Connect4 {
 		return false;
 	}
 	
+	public static boolean boardFull(){
+		for(int y = 0; y < 7; y++)
+			if(board[0][y] == ' ')
+				return false;
+		return true;
+	}
+	
 	public static boolean detectWin(){
 		
 		for(int x = 0; x < 6; x++)
@@ -69,39 +76,63 @@ public class Connect4 {
 		return false;
 	}
 	
-	public static void main(String[] args) {
-		
-		int spot = 0;
-		
+	public static void initializeBoard() {
 		for(int x = 0; x < 6; x++)
 			for(int y = 0; y < 7; y++)
 				board[x][y] = ' ';
+	}
+	
+	public static void main(String[] args) {
 		
-		while(!detectWin()) {
-			showBoard();
-			do
-			{
-				System.out.println("Red to move: ");
-				spot = player1Move();
-			}while(makeMove('R',spot) == false);
+		int spot = 0, redWins = 0, yellowWins = 0;
+		
+		for(int x = 0; x < 1000; x++)
+		{
+			//System.out.println("Round:" + x);
+			initializeBoard();
 			
-			if(detectWin())
-				System.out.println("Red Wins!");
-			else
-			{
-				showBoard();
+			while(!detectWin() && !boardFull()) {
+				//showBoard();
 				do
 				{
-					System.out.println("Yellow to move: ");
-					spot = player2Move();
-				}while( makeMove('Y',spot) == false);
+					//System.out.println("Red to move: ");
+					spot = player1Move();
+				}while(makeMove('R',spot) == false);
 				
-				if(detectWin())
-					System.out.println("Yellow Wins!");
+				if(detectWin()){
+					//System.out.println("Red Wins!");
+					redWins++;
+				}
+				else
+				{
+					//showBoard();
+					do
+					{
+						//System.out.println("Yellow to move: ");
+						spot = player2Move();
+					}while( makeMove('Y',spot) == false);
+					
+					if(detectWin()) {
+						//System.out.println("Yellow Wins!");
+						yellowWins++;
+					}
+						
+				}
+					
 			}
+			//showBoard();
 			
 		}
-		showBoard();
+		System.out.println("After 1000 rounds, the winner is: ");
+		if(redWins > yellowWins)
+			System.out.println("Player 1!");
+		else if(redWins < yellowWins)
+			System.out.println("Player 2!");
+		else
+			System.out.println("A Tie!");
+		
+		System.out.println("Player1: " + redWins +"\tPlayer2: " + yellowWins);
+		
 		
 		
 		
