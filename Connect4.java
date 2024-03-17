@@ -91,32 +91,66 @@ public class Main {
 			//System.out.println("Round:" + x);
 			initializeBoard();
 			
+			int goesFirst = (int)(Math.random()*2+1);
+			
 			while(!detectWin() && !boardFull()) {
 				//showBoard();
-				do
-				{
-					//System.out.println("Red to move: ");
-					spot = player1Move();
-				}while(makeMove('R',spot) == false);
 				
-				if(detectWin()){
-					//System.out.println("Red Wins!");
-					redWins++;
+				if(goesFirst == 1)
+				{
+					do
+					{
+						//System.out.println("Red to move: ");
+						spot = player1Move();
+					}while(makeMove('R',spot) == false);
+					
+					if(detectWin()){
+						//System.out.println("Red Wins!");
+						redWins++;
+					}
+					else
+					{
+						//showBoard();
+						do
+						{
+							//System.out.println("Yellow to move: ");
+							spot = player2Move();
+						}while( makeMove('Y',spot) == false);
+						
+						if(detectWin()) {
+							//System.out.println("Yellow Wins!");
+							yellowWins++;
+						}
+							
+					}
 				}
 				else
 				{
-					//showBoard();
 					do
 					{
-						//System.out.println("Yellow to move: ");
+						//System.out.println("Red to move: ");
 						spot = player2Move();
-					}while( makeMove('Y',spot) == false);
+					}while(makeMove('Y',spot) == false);
 					
-					if(detectWin()) {
-						//System.out.println("Yellow Wins!");
+					if(detectWin()){
+						//System.out.println("Red Wins!");
 						yellowWins++;
 					}
+					else
+					{
+						//showBoard();
+						do
+						{
+							//System.out.println("Yellow to move: ");
+							spot = player1Move();
+						}while( makeMove('R',spot) == false);
 						
+						if(detectWin()) {
+							//System.out.println("Yellow Wins!");
+							redWins++;
+						}
+							
+					}
 				}
 					
 			}
@@ -133,12 +167,6 @@ public class Main {
 		
 		System.out.println("Player1: " + redWins +"\tPlayer2: " + yellowWins);
 		
-		
-		
-		
-		
-		
-
 	}
 
 }
